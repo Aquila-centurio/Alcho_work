@@ -39,14 +39,8 @@ public:
         price = _price;
     }
 
-    void displayInfo() override
-    {
-        cout << "Wine: " << name << ", Alcohol: " << alcoholContent << "%, Volume: " << volume << "L, Price: $" << price << ", Grape: " << grapeSort << ", Country: " << country << endl;
-    }
-
-    float calculateCost(int quantity) override {
-        return price * quantity;
-    }
+    void displayInfo() override;
+    float calculateCost(int quantity) override;
 };
 
 // Класс Пиво
@@ -66,15 +60,9 @@ public:
         price = _price;
     }
 
-    void displayInfo() override 
-    {
-        cout << "Beer: " << name << ", Alcohol: " << alcoholContent << "%, Volume: " << volume << "L, Price: $" << price << ", Type: " << type << ", Manufacturer: " << manufacturer << endl;
-    }
+    void displayInfo() override;
 
-    float calculateCost(int quantity) override 
-    {
-        return price * quantity;
-    }
+    float calculateCost(int quantity) override;
 };
 
 // Класс Водка
@@ -94,15 +82,8 @@ public:
         price = _price;
     }
 
-    void displayInfo() override 
-    {
-        cout << "Vodka: " << name << ", Alcohol: " << alcoholContent << "%, Volume: " << volume << "L, Price: $" << price << ", Country: " << countryOfOrigin << ", Composition: " << composition << endl;
-    }
-
-    float calculateCost(int quantity) override 
-    {
-        return price * quantity;
-    }
+    void displayInfo() override;
+    float calculateCost(int quantity) override;
 };
 
 
