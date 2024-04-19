@@ -1,5 +1,6 @@
 #ifndef MainH
 #define MainH
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,8 +8,7 @@
 using namespace std;
 
 // Базовый класс Алкогольный напиток
-class AlcoholDrink 
-{
+class AlcoholDrink {
 protected:
     string name;
     float alcoholContent;
@@ -23,16 +23,14 @@ public:
 };
 
 // Класс Вино
-class Wine : public AlcoholDrink
- {
+class Wine : public AlcoholDrink {
 private:
     string grapeSort;
     string country;
 
 public:
     Wine(string _name, float _alcoholContent, float _volume, float _price, string _grapeSort, string _country)
-        : grapeSort(_grapeSort), country(_country) 
-    {
+        : grapeSort(_grapeSort), country(_country) {
         name = _name;
         alcoholContent = _alcoholContent;
         volume = _volume;
@@ -44,16 +42,14 @@ public:
 };
 
 // Класс Пиво
-class Beer : public AlcoholDrink 
-{
+class Beer : public AlcoholDrink {
 private:
     string type;
     string manufacturer;
 
 public:
     Beer(string _name, float _alcoholContent, float _volume, float _price, string _type, string _manufacturer)
-        : type(_type), manufacturer(_manufacturer) 
-    {
+        : type(_type), manufacturer(_manufacturer) {
         name = _name;
         alcoholContent = _alcoholContent;
         volume = _volume;
@@ -61,21 +57,18 @@ public:
     }
 
     void displayInfo() override;
-
     float calculateCost(int quantity) override;
 };
 
 // Класс Водка
-class Vodka : public AlcoholDrink 
-{
+class Vodka : public AlcoholDrink {
 private:
     string countryOfOrigin;
     string composition;
 
 public:
     Vodka(string _name, float _alcoholContent, float _volume, float _price, string _countryOfOrigin, string _composition)
-        : countryOfOrigin(_countryOfOrigin), composition(_composition) 
-    {
+        : countryOfOrigin(_countryOfOrigin), composition(_composition) {
         name = _name;
         alcoholContent = _alcoholContent;
         volume = _volume;
@@ -86,34 +79,83 @@ public:
     float calculateCost(int quantity) override;
 };
 
+//------------ Итераторы ------------
+
+// Итератор для ArrayAlcohol
+class ArrayAlcoholIterator {
+private:
+    vector<AlcoholDrink*>::iterator current; // Текущий элемент
+    vector<AlcoholDrink*>::iterator end;     // Конец контейнера
+
+public:
+    ArrayAlcoholIterator(vector<AlcoholDrink*>& drinks) : current(drinks.begin()), end(drinks.end()) {}
+
+    bool hasNext() const {
+        return current != end;
+    }
+
+    AlcoholDrink* getNext() {
+        if (hasNext()) {
+            return *(current++);
+        }
+        return nullptr;
+    }
+};
+
+// Итератор для ListAlcohol
+class ListAlcoholIterator {
+private:
+    struct Node {
+        AlcoholDrink* drink;
+        Node* next;
+        Node(AlcoholDrink* _drink) : drink(_drink), next(nullptr) {} // Конструктор узла
+    };
+    Node* current; // Текущий элемент
+
+public:
+    ListAlcoholIterator(Node* start) : current(start) {}
+
+    bool hasNext() const {
+        return current != nullptr;
+    }
+
+    AlcoholDrink* getNext() {
+        if (hasNext()) {
+            AlcoholDrink* drink = current->drink;
+            current = current->next;
+            return drink;
+        }
+        return nullptr;
+    }
+};
 
 // ------------ КОНТЕЙНЕРЫ ----------------
 
 // Базовый класс для контейнеров
 class AlcoholContainer {
 public:
-    virtual ~AlcoholContainer() {} 
+    virtual ~AlcoholContainer() {}
     virtual void addDrink(AlcoholDrink* drink) = 0;
-    virtual void removeDrink(const string& drinkName) = 0; 
-    virtual void displayContents() const = 0; 
-    virtual AlcoholDrink* findDrink(const string& drinkName) const = 0; 
+    virtual void removeDrink(const string& drinkName) = 0;
+    virtual void displayContents() const = 0;
+    virtual AlcoholDrink* findDrink(const string& drinkName) const = 0;
 };
 
 // Контейнер на основе массива
 class ArrayAlcohol : public AlcoholContainer {
 private:
-    vector<AlcoholDrink*> drinks; 
+    vector<AlcoholDrink*> drinks;
+
 public:
     void addDrink(AlcoholDrink* drink) override {
-        drinks.push_back(drink); 
+        drinks.push_back(drink);
     }
 
     void removeDrink(const string& drinkName) override {
-       
         for (auto it = drinks.begin(); it != drinks.end(); ++it) {
             if ((*it)->getName() == drinkName) {
-                delete *it; 
-                drinks.erase(it); 
+                delete *it;
+                drinks.erase(it);
                 break;
             }
         }
@@ -151,18 +193,15 @@ public:
     ListAlcohol() : head(nullptr) {} // Конструктор
 
     void addDrink(AlcoholDrink* drink) override {
-        // При пустом списке оздаем новый узел, при имеющимся перемещаемся в конец
-        if (!head) 
-        {
-            head = new Node(drink); 
-        } 
-        else 
-        {
+        // При пустом списке создаем новый узел, при наличии перемещаемся в конец
+        if (!head) {
+            head = new Node(drink);
+        } else {
             Node* temp = head;
             while (temp->next) {
-                temp = temp->next; 
-        }
-            temp->next = new Node(drink); 
+                temp = temp->next;
+            }
+            temp->next = new Node(drink);
         }
     }
 
@@ -172,12 +211,12 @@ public:
         while (curr) {
             if (curr->drink->getName() == drinkName) {
                 if (prev) {
-                    prev->next = curr->next; 
+                    prev->next = curr->next;
                 } else {
-                    head = curr->next; 
+                    head = curr->next;
                 }
                 delete curr->drink;
-                delete curr; 
+                delete curr;
                 break;
             }
             prev = curr;
@@ -188,8 +227,8 @@ public:
     void displayContents() const override {
         Node* temp = head;
         while (temp) {
-            temp->drink->displayInfo(); 
-            temp = temp->next; 
+            temp->drink->displayInfo();
+            temp = temp->next;
         }
     }
 
@@ -197,24 +236,22 @@ public:
         Node* temp = head;
         while (temp) {
             if (temp->drink->getName() == drinkName) {
-                return temp->drink; 
+                return temp->drink;
             }
             temp = temp->next;
         }
-        return nullptr; 
+        return nullptr;
     }
 
     ~ListAlcohol() { // Деструктор для узлов
         Node* temp = head;
         while (temp) {
-            Node* next = temp->next; 
+            Node* next = temp->next;
             delete temp->drink;
-            delete temp; 
-            temp = next; 
+            delete temp;
+            temp = next;
         }
     }
 };
-
-
 
 #endif // MainH
