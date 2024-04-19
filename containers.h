@@ -26,6 +26,9 @@ private:
     vector<AlcoholDrink*> drinks;
 
 public:
+    vector<AlcoholDrink*> seeDrink (){
+        return drinks;
+    }
     void addDrink(AlcoholDrink* drink) override {
         drinks.push_back(drink);
     }

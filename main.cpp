@@ -8,7 +8,7 @@
 using namespace std;   
 
 
-int main(int, char**){
+int main(){
     std::cout << "Hello, from Alchogol_work!\n";
     // Создание объектов алкогольных напитков
     Wine wine("Merlot", 12.5, 0.75, 20.0, "Merlot", "France");
@@ -16,3 +16,4 @@ int main(int, char**){
     Vodka vodka("Absolut", 40.0, 1.0, 25.0, "Sweden", "Potatoes");
     
 }
+
