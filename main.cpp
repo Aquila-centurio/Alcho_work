@@ -1,6 +1,9 @@
 #include <iostream>
 #include "classes.h"
 #include "methods.h"
+#include "classes.h"
+#include "iterators.h"
+#include "containers.h"
 //#include "methods.h"
 using namespace std;   
 
