@@ -30,6 +30,20 @@ public:
     }
 };
 
+// Декоратор сортировки по цене для ArrayAlcohol
+class ArrayAlcoholPriceSortDecorator {
+private:
+    ArrayAlcohol& container;
+
+public:
+    ArrayAlcoholPriceSortDecorator(ArrayAlcohol& cont) : container(cont) {}
+
+    void sortByPrice() {
+        std::sort(container.seeDrink().begin(), container.seeDrink().end(), [](AlcoholDrink* a, AlcoholDrink* b) {
+            return a->getPrice() < b->getPrice();
+        });
+    }
+};
 
 
 

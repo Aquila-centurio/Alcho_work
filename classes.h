@@ -20,6 +20,7 @@ public:
     virtual void displayInfo() = 0;
     virtual float calculateCost(int quantity) = 0;
     string getName() const { return name; }
+    float getPrice() const { return price; }
 };
 
 // Класс Вино
