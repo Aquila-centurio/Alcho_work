@@ -45,6 +45,22 @@ public:
     }
 };
 
+// Декоратор фильтрации по содержанию алкоголя
+class ArrayAlcoholAlcoholContentFilterDecorator {
+private:
+    ArrayAlcohol& container;
+    float minAlcoholContent;
+
+public:
+    ArrayAlcoholAlcoholContentFilterDecorator(ArrayAlcohol& cont, float minAlcohol)
+        : container(cont), minAlcoholContent(minAlcohol) {}
+
+    void filterByAlcoholContent() {
+        container.seeDrink().erase(std::remove_if(container.seeDrink().begin(), container.seeDrink().end(), 
+            [this](AlcoholDrink* drink) { return drink->getAlcoholContent() < minAlcoholContent; }), 
+            container.seeDrink().end());
+    }
+};
 
 
 // -------------Декораторы для контейнера на основе связанного списка--------------

@@ -7,6 +7,9 @@
 
 using namespace std;
 
+string AlcoholDrink::getName() const { return name; }
+float AlcoholDrink::getPrice() const { return price; }
+float AlcoholDrink::getAlcoholContent() const { return alcoholContent; }
 
 void Wine::displayInfo() 
 {
