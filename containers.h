@@ -62,18 +62,25 @@ public:
 };
 
 // Контейнер на основе связанного списка
-class ListAlcohol : public AlcoholContainer {
-private:
-    struct Node {
+struct Node {
         AlcoholDrink* drink;
         Node* next;
         Node(AlcoholDrink* _drink) : drink(_drink), next(nullptr) {} // Конструктор узла
     };
+
+class ListAlcohol : public AlcoholContainer {
+private:
+    
     Node* head; // Указатель на начало списка
 
 public:
     ListAlcohol() : head(nullptr) {} // Конструктор
-
+     Node* getHead() const {
+        return head;
+    }
+    void updateList(Node* newHead) {
+        head = newHead;
+    }
     void addDrink(AlcoholDrink* drink) override {
         // При пустом списке создаем новый узел, при наличии перемещаемся в конец
         if (!head) {

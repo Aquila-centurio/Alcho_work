@@ -62,7 +62,50 @@ public:
     }
 };
 
-
 // -------------Декораторы для контейнера на основе связанного списка--------------
+//Декоратор сортировки по названию
+class ListAlcoholNameSortDecorator {
+private:
+    ListAlcohol& container;
+
+public:
+    ListAlcoholNameSortDecorator(ListAlcohol& cont) : container(cont) {}
+
+    void sortByName() {
+    // Функция сравнения для сортировки по названию
+    auto compareName = [](const Node* a, const Node* b) {
+        return a->drink->getName() < b->drink->getName();
+    };
+
+    // Создаем временный вектор указателей на узлы
+    std::vector<Node*> tempNodes;
+
+    // Заполняем временный вектор узлами из списка
+    Node* temp = container.getHead();
+    while (temp) {
+        tempNodes.push_back(temp);
+        temp = temp->next;
+    }
+
+    // Сортируем временный вектор узлов
+    std::sort(tempNodes.begin(), tempNodes.end(), compareName);
+
+    // Перестраиваем список на основе отсортированного временного вектора
+    Node* prev = nullptr;
+    for (size_t i = 0; i < tempNodes.size(); ++i) {
+        if (prev) {
+            prev->next = tempNodes[i];
+        } else {
+            container.updateList(tempNodes[i]);
+        }
+        prev = tempNodes[i];
+    }
+    if (prev) {
+        prev->next = nullptr;
+    }
+}
+
+};
+
 
 #endif // Decorator
