@@ -30,33 +30,6 @@ public:
     }
 };
 
-// Итератор для ListAlcohol
-class ListAlcoholIterator {
-private:
-    struct Node {
-        AlcoholDrink* drink;
-        Node* next;
-        Node(AlcoholDrink* _drink) : drink(_drink), next(nullptr) {} // Конструктор узла
-    };
-    Node* current; // Текущий элемент
-
-public:
-    ListAlcoholIterator(Node* start) : current(start) {}
-
-    bool hasNext() const {
-        return current != nullptr;
-    }
-
-    AlcoholDrink* getNext() {
-        if (hasNext()) {
-            AlcoholDrink* drink = current->drink;
-            current = current->next;
-            return drink;
-        }
-        return nullptr;
-    }
-};
-
 
 
 #endif // Iterator
