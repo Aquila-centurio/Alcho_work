@@ -61,4 +61,73 @@ public:
     }
 };
 
+//--------------- Декораторы для SQL
+
+// Декоратор сортировки по названию для SQLiteAlcoholIterator
+class SQLiteAlcoholNameSortDecorator {
+private:
+    SQLiteAlcoholIterator& iterator;
+    vector<AlcoholDrink*> sortedDrinks;
+
+public:
+    SQLiteAlcoholNameSortDecorator(SQLiteAlcoholIterator& iter) : iterator(iter) {}
+
+    void sortByName() {
+        while (iterator.hasNext()) {
+            sortedDrinks.push_back(iterator.getNext());
+        }
+
+        std::sort(sortedDrinks.begin(), sortedDrinks.end(), [](AlcoholDrink* a, AlcoholDrink* b) {
+            return a->getName() < b->getName();
+        });
+
+        for (const auto& drink : sortedDrinks) {
+            cout << drink->getName() << endl; // Здесь можно вывести напитки в отсортированном порядке
+        }
+    }
+};
+
+class SQLiteAlcoholPriceSortDecorator {
+private:
+    SQLiteAlcoholIterator& iterator;
+    vector<AlcoholDrink*> sortedDrinks;
+
+public:
+    SQLiteAlcoholPriceSortDecorator(SQLiteAlcoholIterator& iter) : iterator(iter) {}
+
+    void sortByPrice() {
+        while (iterator.hasNext()) {
+            sortedDrinks.push_back(iterator.getNext());
+        }
+
+        std::sort(sortedDrinks.begin(), sortedDrinks.end(), [](AlcoholDrink* a, AlcoholDrink* b) {
+            return a->getPrice() < b->getPrice();
+        });
+
+        for (const auto& drink : sortedDrinks) {
+            cout << drink->getName() << endl; // Здесь можно вывести напитки в отсортированном порядке
+        }
+    }
+};
+
+class SQLiteAlcoholAlcoholContentFilterDecorator {
+private:
+    SQLiteAlcoholIterator& iterator;
+    float minAlcoholContent;
+
+public:
+    SQLiteAlcoholAlcoholContentFilterDecorator(SQLiteAlcoholIterator& iter, float minAlcohol)
+        : iterator(iter), minAlcoholContent(minAlcohol) {}
+
+    void filterByAlcoholContent() {
+        while (iterator.hasNext()) {
+            AlcoholDrink* drink = iterator.getNext();
+            if (drink->getAlcoholContent() >= minAlcoholContent) {
+                cout << drink->getName() << endl; // Здесь можно вывести напитки, удовлетворяющие фильтру
+            }
+        }
+    }
+};
+
+
 #endif // Decorator
