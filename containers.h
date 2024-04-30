@@ -157,9 +157,9 @@ public:
         if (rc == SQLITE_OK) {
             while (sqlite3_step(stmt) == SQLITE_ROW) {
                 string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-                float alcoholContent = sqlite3_column_double(stmt, 3);
-                float volume = sqlite3_column_double(stmt, 4);
-                float price = sqlite3_column_double(stmt, 5);
+                float alcoholContent = sqlite3_column_double(stmt, 2);
+                float volume = sqlite3_column_double(stmt, 3);
+                float price = sqlite3_column_double(stmt, 4);
 
                 if (string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))) == "SQLiteWine") {
                     string grapeSort = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
