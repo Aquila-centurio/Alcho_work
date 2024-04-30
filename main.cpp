@@ -52,7 +52,7 @@ int main(){
 
     // ----------------------------------------------
 
-    cout << "А тут SQL \n";
+    cout << "\n А тут SQL \n \n";
 
     SQLiteWineFactory sqliteWineFactory;
     SQLiteBeerFactory sqliteBeerFactory;

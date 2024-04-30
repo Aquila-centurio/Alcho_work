@@ -8,8 +8,17 @@
 #include "iterators.h"
 #include "sqlite3.h"
 
-
 using namespace std;
+
+// Функция для выполнения SQL запроса с проверкой результата
+void executeSQL(sqlite3* db, const string& sql) {
+    char* errMsg = nullptr;
+    int rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        cerr << "Error executing SQL statement: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+}
 
 // Базовый класс для контейнеров
 class AlcoholContainer {
@@ -78,9 +87,23 @@ public:
         } else {
             cout << "Opened database successfully" << endl;
         }
-    }
 
-    
+        // Создание таблицы drinks при инициализации
+        string createTableSQL = "CREATE TABLE IF NOT EXISTS drinks ("
+                                "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                "Name TEXT NOT NULL,"
+                                "AlcoholContent REAL,"
+                                "Volume REAL,"
+                                "Price REAL,"
+                                "Type TEXT,"
+                                "Manufacturer TEXT,"
+                                "CountryOfOrigin TEXT,"
+                                "Composition TEXT"
+                                "GrapeSort TEXT"
+                                "Country TEXT"
+                                ");";
+        executeSQL(db, createTableSQL);
+    }
 
     ~SQLiteAlcohol() {
         sqlite3_close(db);
@@ -110,12 +133,7 @@ public:
         }
 
         int rc = sqlite3_exec(db, insertSQL.c_str(), nullptr, nullptr, &errMsg);
-        if (rc != SQLITE_OK) {
-            cerr << "Error inserting data: " << errMsg << endl;
-            sqlite3_free(errMsg);
-        } else {
-            cout << "Drink added successfully" << endl;
-        }
+        
     }
 
     void removeDrink(const string& drinkName) override {
@@ -139,25 +157,25 @@ public:
         if (rc == SQLITE_OK) {
             while (sqlite3_step(stmt) == SQLITE_ROW) {
                 string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-                float alcoholContent = sqlite3_column_double(stmt, 1);
-                float volume = sqlite3_column_double(stmt, 2);
-                float price = sqlite3_column_double(stmt, 3);
+                float alcoholContent = sqlite3_column_double(stmt, 3);
+                float volume = sqlite3_column_double(stmt, 4);
+                float price = sqlite3_column_double(stmt, 5);
 
-                if (string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))) == "Wine") {
-                    string grapeSort = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
-                    string country = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+                if (string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))) == "SQLiteWine") {
+                    string grapeSort = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
+                    string country = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
 
                     cout << "Wine: " << name << ", Alcohol: " << alcoholContent << "%, Volume: " << volume
                          << "L, Price: $" << price << ", Grape: " << grapeSort << ", Country: " << country << endl;
-                } else if (string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))) == "Beer") {
+                } else if (string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))) == "SQLiteBeer") {
                     string type = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
                     string manufacturer = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
 
                     cout << "Beer: " << name << ", Alcohol: " << alcoholContent << "%, Volume: " << volume
                          << "L, Price: $" << price << ", Type: " << type << ", Manufacturer: " << manufacturer << endl;
-                } else if (string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))) == "Vodka") {
-                    string countryOfOrigin = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
-                    string composition = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6));
+                } else if (string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))) == "SQLiteVodka") {
+                    string countryOfOrigin = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
+                    string composition = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
 
                     cout << "Vodka: " << name << ", Alcohol: " << alcoholContent << "%, Volume: " << volume
                          << "L, Price: $" << price << ", Country: " << countryOfOrigin << ", Composition: " << composition << endl;
@@ -211,6 +229,5 @@ public:
         return db;
     }
 };
-
 
 #endif // Container
