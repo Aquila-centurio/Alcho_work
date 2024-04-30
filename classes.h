@@ -22,6 +22,7 @@ public:
     string getName() const;
     float getPrice() const;
     float getAlcoholContent() const;
+    float getVolume() const;
 };
 
 // Класс Вино
@@ -41,6 +42,8 @@ public:
 
     void displayInfo() override;
     float calculateCost(int quantity) override;
+    string getGrapeSort() const;
+    string getCountry() const;
 };
 
 // Класс Пиво
@@ -60,6 +63,8 @@ public:
 
     void displayInfo() override;
     float calculateCost(int quantity) override;
+    string getType() const;
+    string getManufacturer() const;
 };
 
 // Класс Водка
@@ -79,6 +84,8 @@ public:
 
     void displayInfo() override;
     float calculateCost(int quantity) override;
+    string getCountryOfOrigin() const;
+    string getComposition() const;
 };
 
 #endif // MainH
