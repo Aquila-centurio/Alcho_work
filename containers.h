@@ -204,6 +204,10 @@ public:
 
         return nullptr; // Напиток не найден
     }
+
+    sqlite3* getDatabaseHandle() const {
+        return db;
+    }
 };
 
 
