@@ -12,9 +12,8 @@ using namespace std;
 // Итератор для ArrayAlcohol
 class ArrayAlcoholIterator {
 private:
-    vector<AlcoholDrink*>::iterator current; // Текущий элемент
-    vector<AlcoholDrink*>::iterator end;     // Конец контейнера
-
+    vector<AlcoholDrink*>::iterator current;
+    vector<AlcoholDrink*>::iterator end;     
 public:
     ArrayAlcoholIterator(vector<AlcoholDrink*>& drinks) : current(drinks.begin()), end(drinks.end()) {}
 

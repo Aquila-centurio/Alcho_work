@@ -80,6 +80,8 @@ public:
         }
     }
 
+    
+
     ~SQLiteAlcohol() {
         sqlite3_close(db);
     }

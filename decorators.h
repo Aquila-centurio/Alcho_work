@@ -14,7 +14,7 @@ using namespace std;
 
 // ------------ Декораторы для контейнера на основе массива---------------
 
-// Декоратор сортировки по названию для ArrayAlcohol
+
 class ArrayAlcoholNameSortDecorator {
 private:
     ArrayAlcohol& container;
@@ -29,7 +29,6 @@ public:
     }
 };
 
-// Декоратор сортировки по цене для ArrayAlcohol
 class ArrayAlcoholPriceSortDecorator {
 private:
     ArrayAlcohol& container;
@@ -44,7 +43,6 @@ public:
     }
 };
 
-// Декоратор фильтрации по содержанию алкоголя
 class ArrayAlcoholAlcoholContentFilterDecorator {
 private:
     ArrayAlcohol& container;
@@ -63,7 +61,6 @@ public:
 
 //--------------- Декораторы для SQL
 
-// Декоратор сортировки по названию для SQLiteAlcoholIterator
 class SQLiteAlcoholNameSortDecorator {
 private:
     SQLiteAlcoholIterator& iterator;
