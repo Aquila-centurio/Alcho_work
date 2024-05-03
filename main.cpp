@@ -5,6 +5,7 @@
 #include "iterators.h"
 #include "containers.h"
 #include "fabricMethods.h"
+#include "decorators.h"
 #include <sqlite3.h>
 
 //#include "methods.h"
@@ -48,6 +49,7 @@ int main(){
         alcoholContainer.addDrink(drink);
     }
 
+   
     alcoholContainer.displayContents();
 
     // ----------------------------------------------
@@ -60,8 +62,6 @@ int main(){
 
     SQLiteAlcohol SQLalcoholContainer("mydatabase.db");
    
-    srand((time(NULL)));
-
     int inumDrinks = rand() % 10 + 5; 
     for (int i = 0; i < inumDrinks; ++i) {
         AlcoholFactory* factory;
@@ -85,6 +85,23 @@ int main(){
         SQLalcoholContainer.addDrink(drink);
     }
 
+   
+
+    SQLalcoholContainer.displayContents();
+    
+    cout<<"Sort by name\n";
+    SQLiteAlcoholNameSortDecorator nameSortSQL(SQLalcoholContainer);
+    nameSortSQL.sortByName();
+    SQLalcoholContainer.displayContents();
+
+    cout<<"Sort by price\n";
+    SQLiteAlcoholPriceSortDecorator priceSortSQL(SQLalcoholContainer);
+    priceSortSQL.sortByPrice();
+    SQLalcoholContainer.displayContents();
+
+    cout<<"Sort by gradus\n";
+    SQLiteAlcoholAlcoholContentFilterDecorator contentFilterSQL(SQLalcoholContainer, 20.0);
+    contentFilterSQL.filterByAlcoholContent();
     SQLalcoholContainer.displayContents();
 
     return 0;
