@@ -89,17 +89,17 @@ int main(){
 
     SQLalcoholContainer.displayContents();
     
-    cout<<"Sort by name\n";
+  
     SQLiteAlcoholNameSortDecorator nameSortSQL(SQLalcoholContainer);
     nameSortSQL.sortByName();
     SQLalcoholContainer.displayContents();
 
-    cout<<"Sort by price\n";
+ 
     SQLiteAlcoholPriceSortDecorator priceSortSQL(SQLalcoholContainer);
     priceSortSQL.sortByPrice();
     SQLalcoholContainer.displayContents();
 
-    cout<<"Sort by gradus\n";
+
     SQLiteAlcoholAlcoholContentFilterDecorator contentFilterSQL(SQLalcoholContainer, 20.0);
     contentFilterSQL.filterByAlcoholContent();
     SQLalcoholContainer.displayContents();
