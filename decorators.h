@@ -59,15 +59,15 @@ public:
     }
 };
 
-//--------------- Декораторы для SQL
 
+//--------------- Декораторы для SQL
 class SQLiteAlcoholNameSortDecorator {
 private:
-    SQLiteAlcoholIterator& iterator;
+    SQLiteAlcoholIterator iterator;
     vector<AlcoholDrink*> sortedDrinks;
 
 public:
-    SQLiteAlcoholNameSortDecorator(SQLiteAlcoholIterator& iter) : iterator(iter) {}
+    SQLiteAlcoholNameSortDecorator(SQLiteAlcohol& container) : iterator(container) {}
 
     void sortByName() {
         while (iterator.hasNext()) {
@@ -79,18 +79,19 @@ public:
         });
 
         for (const auto& drink : sortedDrinks) {
-            cout << drink->getName() << endl; // Здесь можно вывести напитки в отсортированном порядке
+            cout << drink->getName() << endl;
         }
     }
 };
 
+// Декоратор для сортировки по цене
 class SQLiteAlcoholPriceSortDecorator {
 private:
-    SQLiteAlcoholIterator& iterator;
+    SQLiteAlcoholIterator iterator;
     vector<AlcoholDrink*> sortedDrinks;
 
 public:
-    SQLiteAlcoholPriceSortDecorator(SQLiteAlcoholIterator& iter) : iterator(iter) {}
+    SQLiteAlcoholPriceSortDecorator(SQLiteAlcohol& container) : iterator(container) {}
 
     void sortByPrice() {
         while (iterator.hasNext()) {
@@ -102,25 +103,26 @@ public:
         });
 
         for (const auto& drink : sortedDrinks) {
-            cout << drink->getName() << endl; // Здесь можно вывести напитки в отсортированном порядке
+            cout << drink->getName() << endl;
         }
     }
 };
 
+// Декоратор для фильтрации по содержанию алкоголя
 class SQLiteAlcoholAlcoholContentFilterDecorator {
 private:
-    SQLiteAlcoholIterator& iterator;
+    SQLiteAlcoholIterator iterator;
     float minAlcoholContent;
 
 public:
-    SQLiteAlcoholAlcoholContentFilterDecorator(SQLiteAlcoholIterator& iter, float minAlcohol)
-        : iterator(iter), minAlcoholContent(minAlcohol) {}
+    SQLiteAlcoholAlcoholContentFilterDecorator(SQLiteAlcohol& container, float minAlcohol)
+        : iterator(container), minAlcoholContent(minAlcohol) {}
 
     void filterByAlcoholContent() {
         while (iterator.hasNext()) {
             AlcoholDrink* drink = iterator.getNext();
             if (drink->getAlcoholContent() >= minAlcoholContent) {
-                cout << drink->getName() << endl; // Здесь можно вывести напитки, удовлетворяющие фильтру
+                cout << drink->getName() << endl;
             }
         }
     }
@@ -128,3 +130,4 @@ public:
 
 
 #endif // Decorator
+
